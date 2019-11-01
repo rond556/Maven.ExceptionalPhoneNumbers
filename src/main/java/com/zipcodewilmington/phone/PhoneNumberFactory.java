@@ -21,7 +21,13 @@ public final class PhoneNumberFactory {
      * @return array of randomly generated PhoneNumber objects
      */ //TODO - Implement logic
     public static PhoneNumber[] createRandomPhoneNumberArray(int phoneNumberCount) {
-        return null;
+        PhoneNumber[] randomPhoneNumbers = new PhoneNumber[phoneNumberCount];
+        for(int i = 0; i < phoneNumberCount; i++){
+            PhoneNumber phoneNumber = createRandomPhoneNumber();
+            randomPhoneNumbers[i] = phoneNumber;
+        }
+
+        return randomPhoneNumbers;
     }
 
     /**
@@ -29,12 +35,13 @@ public final class PhoneNumberFactory {
      */ //TODO - Implement logic
     public static PhoneNumber createRandomPhoneNumber() {
         PhoneNumber phoneNumber;
+        Integer areaCode = RandomNumberFactory.createInteger(100, 999);
+        Integer centralOfficeCode = RandomNumberFactory.createInteger(100, 999);
+        Integer phoneLineCode = RandomNumberFactory.createInteger(1000, 9999);
+        StringBuilder sb = new StringBuilder();
+        sb.append("(").append(areaCode).append(")-").append(centralOfficeCode).append("-").append(phoneLineCode);
         try {
-            Integer areaCode = RandomNumberFactory.createInteger(100, 999);
-            Integer centralOfficeCode = RandomNumberFactory.createInteger(100, 999);
-            Integer phoneLineCode = RandomNumberFactory.createInteger(1000, 9999);
-            StringBuilder sb = new StringBuilder();
-            sb.append(areaCode + centralOfficeCode + phoneLineCode);
+
             phoneNumber = createPhoneNumber(sb.toString());
         } catch (InvalidPhoneNumberFormatException e){
             return null;
@@ -54,13 +61,13 @@ public final class PhoneNumberFactory {
      */ //TODO - if input is valid, return respective PhoneNumber object, else return null
     public static PhoneNumber createPhoneNumberSafely(int areaCode, int centralOfficeCode, int phoneLineCode) {
         PhoneNumber phoneNumber;
-
+        StringBuilder sb = new StringBuilder();
+        sb.append("(").append(areaCode).append(")-").append(centralOfficeCode).append("-").append(phoneLineCode);
+        String phoneNumberString = sb.toString();
         try {
-            StringBuilder sb = new StringBuilder();
-            sb.append(areaCode + centralOfficeCode + phoneLineCode);
             phoneNumber = createPhoneNumber(sb.toString());
         } catch(InvalidPhoneNumberFormatException e){
-
+            LOGGER.info(phoneNumberString + " is not a valid number");
             return null;
         }
         return phoneNumber;
@@ -73,6 +80,7 @@ public final class PhoneNumberFactory {
      */ // TODO - Add throws statement to method signature
     public static PhoneNumber createPhoneNumber(String phoneNumberString) throws InvalidPhoneNumberFormatException  {
         PhoneNumber phoneNumber = new PhoneNumber(phoneNumberString);
+        LOGGER.info("Attempting to create a new PhoneNumber object with a value of " + phoneNumberString);
         return phoneNumber;
     }
 }
