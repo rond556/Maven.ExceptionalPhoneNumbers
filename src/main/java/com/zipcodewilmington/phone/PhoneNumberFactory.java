@@ -62,7 +62,7 @@ public final class PhoneNumberFactory {
     public static PhoneNumber createPhoneNumberSafely(int areaCode, int centralOfficeCode, int phoneLineCode) {
         PhoneNumber phoneNumber;
         StringBuilder sb = new StringBuilder();
-        sb.append("(").append(areaCode).append(")-").append(centralOfficeCode).append("-").append(phoneLineCode);
+        sb.append("(").append(areaCode).append(")-").append(centralOfficeCode).append("-").append(phoneLineCode);\
         String phoneNumberString = sb.toString();
         try {
             phoneNumber = createPhoneNumber(sb.toString());
